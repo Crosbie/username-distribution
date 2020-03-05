@@ -2,9 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 var accounts = process.env.OPENSHIFT_ACCOUNTS || 50;
-var password = process.env.OPENSHIFT_PASSWORD || 'openshift';
+var password = process.env.OPENSHIFT_PASSWORD || 'r3dh4t1!';
 var taken = [9,10];
 var currentAvailable = 0;
+var title = "CCN - Dev Track";
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -22,11 +24,13 @@ router.get('/', function(req, res, next) {
     res.cookie('ccn_user',id, {maxAge:30000});
     console.log('new',id);
   }
-  return res.json({user:id});
-  // return res.render('userPage', {userId: id});
-  
 
-  // res.render('index', { title: 'Express' });
+  var data = {
+    userId: id,
+    password: password,
+    title: title
+  };
+  return res.render('index', data);
 });
 
 module.exports = router;
