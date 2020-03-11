@@ -1,17 +1,19 @@
 var express = require('express');
 var router = express.Router();
+var config = require('../config.json');
 
-var accounts = process.env.OPENSHIFT_ACCOUNTS || 100;
-var password = process.env.OPENSHIFT_PASSWORD || 'r3dh4t1!';
-var taken = [9,10];
+var title = config.eventTitle;
+var accounts = config.accounts.number;
+var password = config.accounts.password;
+var prefix = config.accounts.prefix;
+var taken = config.accounts.blockedUsers;
 var currentAvailable = 0;
-var title = "CCN - Dev Track";
 
 // MODULES
-var module1Url = false;
-var module2Url = "http://localhost:8080/accounts";
-var module3Url = "http://localhost:8080/accounts";
-var module4Url = "http://localhost:8080/accounts";
+var module1Url = config.modules.module1;
+var module2Url = config.modules.module2;
+var module3Url = config.modules.module3;
+var module4Url = config.modules.module4;
 
 var workshopLength = 1000 * 60 * 60 * 8; //8 hours
 

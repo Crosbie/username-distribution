@@ -1,0 +1,16 @@
+{
+    "eventTitle": "OCP4 Workshop",
+    "eventHours": 8,
+    "accounts": {
+        "number": 100,
+        "password": "openshift",
+        "blockedUsers": [9,10],
+        "prefix": "user"
+    },
+    "modules": {
+        "module1": null,
+        "module2": "http://dummy.com",
+        "module3": "http://dummy.com",
+        "module4": null
+    }
+}

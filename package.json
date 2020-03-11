@@ -1,7 +1,6 @@
 {
   "name": "user-distribution",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
@@ -16,5 +15,11 @@
   },
   "devDependencies": {
     "loadtest": "^4.1.0"
-  }
+  },
+  "author": "ecrosbie@redhat.com",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Crosbie/username-distribution"
+  },
+  "license": "GPL-3.0"
 }
