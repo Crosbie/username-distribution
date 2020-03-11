@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
-var accounts = process.env.OPENSHIFT_ACCOUNTS || 50;
+var accounts = process.env.OPENSHIFT_ACCOUNTS || 100;
 var password = process.env.OPENSHIFT_PASSWORD || 'r3dh4t1!';
 var taken = [9,10];
 var currentAvailable = 0;
 var title = "CCN - Dev Track";
+
+var workshopLength = 1000 * 60 * 60 * 8; //8 hours
 
 
 /* GET home page. */
@@ -21,7 +23,7 @@ router.get('/', function(req, res, next) {
   } else {
     id = getNextUser();
     // set cookie
-    res.cookie('ccn_user',id, {maxAge:30000});
+    res.cookie('ccn_user',id, {maxAge:workshopLength});
     console.log('new',id);
   }
 
@@ -32,6 +34,17 @@ router.get('/', function(req, res, next) {
   };
   return res.render('index', data);
 });
+
+// return accounts info
+router.get('/accounts',function(req,res){
+  return res.json({
+    lastAssigned: 'user'+currentAvailable,
+    totalAccounts: 'user'+accounts,
+    locked: taken.map(function(val){
+      return 'user'+val;
+    })
+  });
+})
 
 module.exports = router;
 
