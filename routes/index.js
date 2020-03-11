@@ -7,6 +7,12 @@ var taken = [9,10];
 var currentAvailable = 0;
 var title = "CCN - Dev Track";
 
+// MODULES
+var module1Url = false;
+var module2Url = "http://localhost:8080/accounts";
+var module3Url = "http://localhost:8080/accounts";
+var module4Url = "http://localhost:8080/accounts";
+
 var workshopLength = 1000 * 60 * 60 * 8; //8 hours
 
 
@@ -30,7 +36,15 @@ router.get('/', function(req, res, next) {
   var data = {
     userId: id,
     password: password,
-    title: title
+    title: title,
+    module1: module1Url ? "block" : "none",
+    module1Url: module1Url,
+    module2: module2Url ? "block" : "none",
+    module2Url: module2Url,
+    module3: module3Url ? "block" : "none",
+    module3Url: module3Url,
+    module4: module4Url ? "block" : "none",
+    module4Url: module4Url,
   };
   return res.render('index', data);
 });

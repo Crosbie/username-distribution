@@ -1,6 +1,28 @@
+<img class="logo" src="images/logo.jpg"/>
 <h1>{{title}}</h1>
-<br/>
-<h3>Your login credentials</h3>
-<hr>
-<p>Username: {{userId}}</p>
-<p>Password: {{password}}</p>
+
+<div id="credentials">
+    <h3>Your login credentials</h3>
+    <hr>
+    <p>Username: {{userId}}</p>
+    <p>Password: {{password}}</p>
+</div>
+
+<div id="modules">
+    <div id="module1" style="display:{{module1}}">
+        <h3>Module 1</h3>
+        <a href="{{module1Url}}">{{module1Url}}</a>
+    </div>
+    <div id="module2" style="display:{{module2}}">
+        <h3>Module 2</h3>
+        <a href="{{module2Url}}">{{module2Url}}</a>
+    </div>
+    <div id="module3" style="display:{{module3}}">
+        <h3>Module 3</h3>
+        <a href="{{module3Url}}">{{module3Url}}</a>
+    </div>
+    <div id="module4" style="display:{{module4}}">
+        <h3>Module 4</h3>
+        <a href="{{module4Url}}">{{module4Url}}</a>
+    </div>
+</div>
