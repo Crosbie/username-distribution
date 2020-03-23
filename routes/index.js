@@ -9,6 +9,8 @@ var prefix = config.accounts.prefix;
 var taken = config.accounts.blockedUsers;
 var currentAvailable = 0;
 
+var leadZero = true;
+
 // MODULES
 var module1Url = config.modules.module1;
 var module2Url = config.modules.module2;
@@ -54,10 +56,10 @@ router.get('/', function(req, res, next) {
 // return accounts info
 router.get('/accounts',function(req,res){
   return res.json({
-    lastAssigned: 'user'+currentAvailable,
-    totalAccounts: 'user'+accounts,
+    lastAssigned: prefix+currentAvailable,
+    totalAccounts: prefix+accounts,
     locked: taken.map(function(val){
-      return 'user'+val;
+      return prefix+val;
     })
   });
 })
@@ -77,5 +79,11 @@ function getNextUser(){
     return getNextUser();
   }
 
-  return "user"+currentAvailable;
+  // add leading zero to username if needed
+  var lead = "";
+  if(leadZero && (currentAvailable < 10)){
+    lead = 0;
+  }
+
+  return prefix+lead+currentAvailable;
 }
