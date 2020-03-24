@@ -2,13 +2,13 @@
     "eventTitle": "Agile Integration Workshop",
     "eventHours": 8,
     "accounts": {
-        "number": 100,
-        "password": "anKpTreqtEoLGba",
+        "number": 20,
+        "password": "c4TjqfdWJzwGR6E",
         "blockedUsers": [10],
         "prefix": "evals"
     },
     "modules": {
-        "module1": "https://tutorial-web-app-webapp.apps.ecrosbie-e1b5.open.redhat.com",
+        "module1": "https://tutorial-web-app-webapp.apps.spain-63c1.open.redhat.com",
         "module2": null,
         "module3": null,
         "module4": null
