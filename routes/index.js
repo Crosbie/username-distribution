@@ -55,8 +55,15 @@ router.get('/', function(req, res, next) {
 
 // return accounts info
 router.get('/accounts',function(req,res){
+
+  // add leading zero to username if needed
+  var lead = "";
+  if(leadZero && (currentAvailable < 10)){
+    lead = 0;
+  }
+
   return res.json({
-    lastAssigned: prefix+currentAvailable,
+    lastAssigned: prefix+lead+currentAvailable,
     totalAccounts: prefix+accounts,
     locked: taken.map(function(val){
       return prefix+val;
