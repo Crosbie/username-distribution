@@ -55,7 +55,7 @@ router.get('/', function(req, res, next) {
 router.get('/accounts',function(req,res){
   return res.json({
     lastAssigned: 'user'+currentAvailable,
-    totalAccounts: 'user'+accounts,
+    totalAccounts: accounts,
     locked: taken.map(function(val){
       return 'user'+val;
     })

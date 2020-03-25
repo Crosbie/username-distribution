@@ -1,16 +1,16 @@
 {
-    "eventTitle": "OCP4 Workshop",
+    "eventTitle": "Quarkus Workshop",
     "eventHours": 8,
     "accounts": {
-        "number": 100,
+        "number": 20,
         "password": "openshift",
-        "blockedUsers": [9,10],
+        "blockedUsers": [19,20],
         "prefix": "user"
     },
     "modules": {
-        "module1": null,
-        "module2": "http://dummy.com",
-        "module3": "http://dummy.com",
+        "module1": "http://web-guides.apps.cluster-quarkus-c84a.quarkus-c84a.sandbox29.opentlc.com",
+        "module2": null,
+        "module3": null,
         "module4": null
     }
 }
