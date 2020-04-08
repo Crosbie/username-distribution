@@ -2,13 +2,13 @@
     "eventTitle": "Quarkus Workshop",
     "eventHours": 8,
     "accounts": {
-        "number": 40,
+        "number": 25,
         "password": "openshift",
-        "blockedUsers": [39,40],
+        "blockedUsers": [],
         "prefix": "user"
     },
     "modules": {
-        "module1": "http://web-guides.apps.cluster-quarkus-bf70.quarkus-bf70.sandbox1493.opentlc.com/",
+        "module1": "http://web-guides.apps.cluster-quarkus-d3b5.quarkus-d3b5.sandbox1172.opentlc.com",
         "module2": null,
         "module3": null,
         "module4": null
