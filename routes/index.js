@@ -2,15 +2,16 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config.json');
 
-var title = config.eventTitle;
-var accounts = config.accounts.number;
-var password = config.accounts.password;
+
+var title = process.env.eventTitle || config.eventTitle;
+var accounts = process.env.users || config.accounts.number;
+var password = process.env.password || config.accounts.password;
 var prefix = config.accounts.prefix;
 var taken = config.accounts.blockedUsers;
 var currentAvailable = 0;
 
 // MODULES
-var module1Url = config.modules.module1;
+var module1Url = process.env.guideURL || config.modules.module1;
 var module2Url = config.modules.module2;
 var module3Url = config.modules.module3;
 var module4Url = config.modules.module4;
