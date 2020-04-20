@@ -21,6 +21,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
   secret: config.sessionSecret,
+  resave: false,
+  saveUninitialized: true,
   cookie: {
     // Length of workshop in milliseconds
     maxAge: timestring(config.eventHours, 'ms')

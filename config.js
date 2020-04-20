@@ -3,7 +3,6 @@
 const env = require('env-var')
 const { randomBytes } = require('crypto')
 
-console.log(process.env.LAB_MODULE_URLS)
 module.exports = {
   sessionSecret: env.get('LAB_SESSION_SECRET').default(randomBytes(8).toString()).asString(),
   eventTitle: env.get('LAB_TITLE').default('OCP4 Workshop').asString(),
