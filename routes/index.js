@@ -49,7 +49,7 @@ module.exports = router;
 
 function getNextUser(){
   if(currentAvailable === accounts){
-    error('No more accounts available');
+    log('No more accounts available');
     return "No More Accounts"
   }
 
