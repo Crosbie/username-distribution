@@ -29,7 +29,7 @@ The application will be deployed to a namespace called `user-distribution` with 
 
 You can set these variables via a `Deployment` or `DeploymentConfig`, or by mounting a file named `.env` (see the `.env.example` in this repo) into the root of the application directory in the Pod running it.
 
-*NOTE: The `.env.example` is ignored by the application. Copy it and rename to `.env` to use it locally. It will also be ignored when running the `npm run deploy` so you need to mount it manually into your application Pod if using that option.*
+*NOTE: The `.env.example` is ignored by the application. Copy it and rename to `.env` to use it locally and as part of the `npm run deploy` script.*
 
 | Name | Default | Description |
 | ---- | ------- | ----------- |
