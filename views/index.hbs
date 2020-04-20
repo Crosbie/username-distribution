@@ -9,20 +9,10 @@
 </div>
 
 <div id="modules">
-    <div id="module1" style="display:{{module1}}">
-        <h3>Module 1</h3>
-        <a target="_blank" href="{{module1Url}}">{{module1Url}}</a>
+    {{#each modules}}
+    <div id="module{{@index}}">
+        <h3>Module {{@index}}</h3>
+        <a target="_blank" href="{{this}}">{{this}}</a>
     </div>
-    <div id="module2" style="display:{{module2}}">
-        <h3>Module 2</h3>
-        <a target="_blank" href="{{module2Url}}">{{module2Url}}</a>
-    </div>
-    <div id="module3" style="display:{{module3}}">
-        <h3>Module 3</h3>
-        <a target="_blank" href="{{module3Url}}">{{module3Url}}</a>
-    </div>
-    <div id="module4" style="display:{{module4}}">
-        <h3>Module 4</h3>
-        <a target="_blank" href="{{module4Url}}">{{module4Url}}</a>
-    </div>
+    {{/each}}
 </div>

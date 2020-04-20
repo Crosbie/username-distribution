@@ -2,24 +2,39 @@
   "name": "user-distribution",
   "version": "1.0.0",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node -r dotenv/config ./bin/www",
+    "start:dev": "nodemon -r dotenv/config ./bin/www",
+    "deploy": "nodeshift --expose --namespace.name=user-distribution --namespace.create=true"
   },
   "dependencies": {
+    "barelog": "^0.2.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "~8.2.0",
+    "env-var": "^6.1.0",
     "express": "~4.16.1",
-    "hbs": "^4.1.0",
+    "express-session": "^1.17.1",
+    "hbs": "~4.1.0",
     "http-errors": "~1.6.3",
     "less-middleware": "~3.1.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "timestring": "^6.0.0"
   },
   "devDependencies": {
-    "loadtest": "^4.1.0"
+    "loadtest": "~4.1.0",
+    "nodemon": "^2.0.3",
+    "nodeshift": "~6.0.2"
   },
   "author": "ecrosbie@redhat.com",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Crosbie/username-distribution"
+    "type": "git",
+    "url": "git+https://github.com/Crosbie/username-distribution.git"
   },
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "description": "This web app distributes usernames and passwords to individuals who are taking part in an OpenShift based workshop. Deploying this app in OpenShift and exposing it publicly will give users a central access point, giving them their individual login credentials and links to lab guides.",
+  "bugs": {
+    "url": "https://github.com/Crosbie/username-distribution/issues"
+  },
+  "homepage": "https://github.com/Crosbie/username-distribution#readme",
+  "main": "app.js"
 }
