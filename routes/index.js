@@ -2,68 +2,39 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config');
 const log = require('barelog')
+const users = require('../lib/users')
 
 
 var title = config.eventTitle;
-var accounts = config.accounts.number;
 var password = config.accounts.password;
-var prefix = config.accounts.prefix;
-var taken = config.accounts.blockedUsers;
-var padUserAcc = config.accounts.padZeroes
-var currentAvailable = 0;
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  // does 'user' Cookie exist
-  var id = 0;
-  if (req.session && req.session.ccn_user) {
-    log('found existing session and associated user ID: ', req.session)
-    id = req.session.ccn_user;
-  } else {
-    id = getNextUser();
-    log('this is a new session. generated ID for user:', id)
-    req.session.ccn_user = id
+router.get('/', function (req, res, next) {
+  var username = req.session.username
+
+  if (!username) {
+    log('the incoming connection has no user in the session, requesting new user assignment')
+    let user = users.getAndAssignUser(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
+
+    if (user) {
+      username = user.username
+    }
   }
 
-  var data = {
-    userId: id,
-    password: password,
-    title: title,
-    modules: config.modules
-  };
-  return res.render('index', data);
+  if (!username) {
+    res.render('sorry', {
+      message: 'All available accounts have been assigned to participants. Please contact the lab administrator if you believe this is an error.'
+    })
+  } else {
+    req.session.username = username
+
+    res.render('index', {
+      username,
+      password: password,
+      title: title,
+      modules: config.modules
+    });
+  }
 });
 
-// return accounts info
-router.get('/accounts',function(req,res){
-  return res.json({
-    lastAssigned: 'user'+currentAvailable,
-    totalAccounts: accounts,
-    locked: taken.map(function(val){
-      return 'user'+val;
-    })
-  });
-})
-
 module.exports = router;
-
-function getNextUser(){
-  if(currentAvailable === accounts){
-    log('No more accounts available');
-    return "No More Accounts"
-  }
-
-  currentAvailable++;
-  log('Current Users:',currentAvailable);
-
-  if(taken.indexOf(currentAvailable) >= 0){
-    return getNextUser();
-  }
-
-  if (currentAvailable < 10 && padUserAcc) {
-    return `${prefix}0${currentAvailable}`
-  } else {
-    return `${prefix}${currentAvailable}`;
-  }
-
-}

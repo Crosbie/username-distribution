@@ -4,11 +4,30 @@ This web app distributes usernames and passwords to individuals who are taking p
 
 ![screenshot](screen.png)
 
+## Build and Push this as an Image
+
+A *scripts/* directory includes *build* and *push* scripts to create a build
+using the [s2i](https://github.com/openshift/source-to-image) CLI, and push it
+to [quay.io](https;//quay.io).
+
+Sample usage:
+
+```bash
+# This can take a while depending on your connection speed and machine specs
+./scripts/image.build.sh
+
+# Pushes the image to quay.io for the specified user.
+# This is bound by your upload speed...so be patient ☕
+QUAY_USER=your-username ./scripts/image.build.sh
+```
+
 ## How to Use
 
-### Deploy to OpenShift
+### Deploy to OpenShift using NodeShift
 
-You can deploy the application from your local host to OpenShift by running the following commands:
+*NOTE: This will use an in-memory store for sessions. If you restart/redeploy the application all state will be lost.*
+
+You can quickly deploy the application from your local host to OpenShift by running the following commands:
 
 ```bash
 # first login to your cluster

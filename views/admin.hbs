@@ -1,0 +1,28 @@
+<div class="container mx-auto">
+  <h1 class="text-center text-2xl mb-2">Username Distribution - Admin Panel</h1>
+  <hr class="pb-4">
+  <table class="table-fixed mx-auto">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Username</th>
+        <th class="px-4 py-2">Assigned On</th>
+        <th class="px-4 py-2">IP</th>
+        <th class="px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        {{#if this.odd}}
+          <tr class="bg-gray-100">
+        {{else}}
+          <tr>
+        {{/if}}
+          <td class="border px-4 py-2 w-1/4 text-center">{{this.username}}</td>
+          <td class="border px-4 py-2">{{this.assignedTs}}</td>
+          <td class="border px-4 py-2">{{this.ip}}</td>
+          <td class="border px-4 py-2"><a href="/admin/unassign/{{username}}">Unassign</a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

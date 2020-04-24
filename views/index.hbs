@@ -1,18 +1,22 @@
-<img class="logo" src="images/logo.jpg"/>
-<h1>{{title}}</h1>
+<div class="home">
+  <div class="flex">
+    <img class="logo" src="images/logo.jpg"/>
+    <h1 class="flex items-center text-3xl">{{title}}</h1>
+  </div>
 
-<div id="credentials">
-    <h3>Your login credentials</h3>
-    <hr>
-    <p>Username: {{userId}}</p>
-    <p>Password: {{password}}</p>
-</div>
+  <div id="credentials">
+      <h3 class="flex-initial text-xl pb-2">Your login credentials</h3>
+      <hr class="flex-auto pb-4">
+      <p class="text-base pb-2"><span class="font-bold">Username</span>: {{username}}</p>
+      <p class="text-base"><span class="font-bold">Password</span>: {{password}}</p>
+  </div>
 
-<div id="modules">
-    {{#each modules}}
-    <div id="module{{@index}}">
-        <h3>Module {{@index}}</h3>
-        <a target="_blank" href="{{this}}">{{this}}</a>
-    </div>
-    {{/each}}
+  <div id="modules" class="mt-4">
+      {{#each modules}}
+      <div id="module{{@index}}">
+          <h3 class="text-2xl pb-2">Module {{@index}}</h3>
+          <a class="text-base pb-4 block" target="_blank" href="{{this}}">{{this}}</a>
+      </div>
+      {{/each}}
+  </div>
 </div>
