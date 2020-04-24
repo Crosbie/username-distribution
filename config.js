@@ -14,12 +14,21 @@ const env = require('env-var').from({
   LAB_ADMIN_PASS: 'pleasechangethis',
   LAB_MODULE_URLS: '',
 
+  // If you plan to use redis uncomment and set these,
+  // or provide in values for them in the environment
+  // LAB_REDIS_HOST: 'some.redis.host:6379',
+  // LAB_REDIS_PASS: 'somepassword',
+
   // Include environment values. These will take precedence over
   // the defaults defined above if defined
   ...process.env
 })
 
 module.exports = {
+  redis: {
+    host: env.get('LAB_REDIS_HOST').asString(),
+    password: env.get('LAB_REDIS_PASS').asString()
+  },
   adminPassword: env.get('LAB_ADMIN_PASS').asString(),
   sessionSecret: env.get('LAB_SESSION_SECRET').asString(),
   eventTitle: env.get('LAB_TITLE').asString(),

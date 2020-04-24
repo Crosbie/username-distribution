@@ -20,6 +20,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
+  store: require('./lib/session-store'),
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: true,

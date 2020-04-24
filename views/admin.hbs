@@ -20,7 +20,11 @@
           <td class="border px-4 py-2 w-1/4 text-center">{{this.username}}</td>
           <td class="border px-4 py-2">{{this.assignedTs}}</td>
           <td class="border px-4 py-2">{{this.ip}}</td>
-          <td class="border px-4 py-2"><a href="/admin/unassign/{{username}}">Unassign</a></td>
+          <td class="border px-4 py-2">
+            {{#if this.assignedTs}}
+              <a href="/admin/unassign/{{username}}">Unassign</a>
+            {{/if}}
+          </td>
         </tr>
       {{/each}}
     </tbody>
