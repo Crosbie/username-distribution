@@ -2,7 +2,13 @@
 
 This web app distributes usernames and passwords to individuals who are taking part in an OpenShift based workshop. Deploying this app in OpenShift and exposing it publicly will give users a central access point, giving them their individual login credentials and links to lab guides.
 
-![screenshot](screen.png)
+First, a user must enter their name so they can be identified:
+
+![Request Account](screens/account-request.png)
+
+Then, they will be assigned a lab account if one is available:
+
+![Home Screen](screens/home.png)
 
 ## Build and Push this as an Image
 
@@ -24,7 +30,7 @@ QUAY_USER=your-username ./scripts/image.build.sh
 ## How to Use
 
 No matter what deployment option you choose below, ensure you set the
-environment variables described in the configuration section below.
+environment variables described in the configuration section of this README.
 
 ### Deploy to OpenShift using NodeShift
 
@@ -51,15 +57,17 @@ The application will be deployed to a namespace called `user-distribution` with 
 
 Run the following commands inside this repo:
 
-```
+```bash
 oc login
 oc new-project username-distribution
 oc create -f openshift/project.json
 ```
 
-If you'd like to flush the application state, i.e invalidate all assigned sessions/logins, run the following:
+If you'd like to flush the application state, i.e invalidate all assigned
+sessions/logins, run the following commands, or visit the `/admin` page of
+the application:
 
-```
+```bash
 oc project username-distribution
 
 # get the redis pod, and redis password
@@ -107,3 +115,22 @@ Edit the *config.js* file and deploy in OpenShift. See below config values and d
 | accounts.blockedUsers | [] | Comma separated list of user numbers to block off. These numbers will not be assigned |
 | accounts.prefix | evals | The username prefix for each account (eg. {prefix}1, {prefix}2) |
 | modules | [] | Comma separated list of modules, e.g "https://module.a,https://module.b" |
+
+
+## Administration
+
+As an admin, you can access the admin dashboard via the `/admin` route, e.g
+`http://localhost:8080/admin`. You will be prompted for a username and password
+to authenticate - use the following values:
+
+* Username: `admin`
+* Password: The value of `LAB_ADMIN_PASS` (default is `pleasechangethis`)
+
+From the admin dashboard you can:
+
+* See assigned accounts and the name of the person using it
+* Revoke all user assignments - basically a reset button
+* Unassign individual users - this will let someone else claim the account
+
+
+![Admin Screen](screens/admin.png)
