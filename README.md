@@ -23,6 +23,9 @@ QUAY_USER=your-username ./scripts/image.build.sh
 
 ## How to Use
 
+No matter what deployment option you choose below, ensure you set the
+environment variables described in the configuration section below.
+
 ### Deploy to OpenShift using NodeShift
 
 *NOTE: This will use an in-memory store for sessions. If you restart/redeploy the application all state will be lost.*
@@ -42,6 +45,32 @@ npm run deploy
 
 The application will be deployed to a namespace called `user-distribution` with a public facing route exposed.
 
+### Deploy using OC CLI
+
+*NOTE: This method will use Redis to store session state. This means you can restart/redeploy the Node.js application without losing state. An example of flushing state is included below.*
+
+Run the following commands inside this repo:
+
+```
+oc login
+oc new-project username-distribution
+oc create -f openshift/project.json
+```
+
+If you'd like to flush the application state, i.e invalidate all assigned sessions/logins, run the following:
+
+```
+oc project username-distribution
+
+# get the redis pod, and redis password
+REDIS_POD=$(oc get pods -l deploymentconfig=redis -o jsonpath='{.items[0].metadata.name}')
+REDIS_PASS=$(oc get secrets/redis -o jsonpath='{.data.database-password}' | base64 -D)
+
+# execute a FLUSHALL redis command in the pod to delete user
+# reservations and stored user session tokens
+oc exec $REDIS_POD -- bash -c "redis-cli -a $REDIS_PASS FLUSHALL"
+```
+
 ### Configuration
 
 #### Via Environment Variables
@@ -60,7 +89,10 @@ You can set these variables via a `Deployment` or `DeploymentConfig`, or by moun
 | LAB_USER_PREFIX | evals | The username prefix for each account (eg. evals1, evals2) |
 | LAB_MODULE_URLS | [] | Comma separated list of modules, e.g "https://module.a,https://module.b" |
 | LAB_USER_PAD_ZERO | false | Determines if user should be formatted as evals01 or "evals1" when user number is less than 10 |
-
+| LAB_ADMIN_PASS | pleasechangethis | The password used to login at the /admin URL |
+| LAB_REDIS_HOST | not set | The Redis instance to use. Provide only the hostname, and no port |
+| LAB_REDIS_PASS | not set | The password used to access Redis |
+| LAB_SESSION_SECRET | Randomly generated on startup | The secret used to sign cookies. Set this |
 
 #### Via Code
 

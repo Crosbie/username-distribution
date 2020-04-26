@@ -1,5 +1,6 @@
 # tmpdir for nodeshit
 tmp
+.DS_Store
 
 # Logs
 logs

@@ -1,12 +1,29 @@
+<script>
+  function unassignAll () {
+    const really = confirm('Are you sure you want to revoke all user sessions?')
+
+    if (really) {
+      window.location.href = '/admin/unassign-all'
+    }
+  }
+</script>
 <div class="container mx-auto">
-  <h1 class="text-center text-2xl mb-2">Username Distribution - Admin Panel</h1>
+  <div class="flex items-center">
+    <img class="logo" src="images/logo.jpg"/>
+    <h1 class="text-center text-2xl">Admin Panel</h1>
+    <div class="flex flex-1 flex-row-reverse">
+      <button class="flex bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="unassignAll()">Unassign All</button>
+    </div>
+  </div>
   <hr class="pb-4">
-  <table class="table-fixed mx-auto">
+
+  <table class="table-auto mt-4 w-full">
     <thead>
       <tr>
         <th class="px-4 py-2">Username</th>
         <th class="px-4 py-2">Assigned On</th>
         <th class="px-4 py-2">IP</th>
+        <th class="px-4 py-2">Name</th>
         <th class="px-4 py-2">Actions</th>
       </tr>
     </thead>
@@ -18,11 +35,12 @@
           <tr>
         {{/if}}
           <td class="border px-4 py-2 w-1/4 text-center">{{this.username}}</td>
-          <td class="border px-4 py-2">{{this.assignedTs}}</td>
-          <td class="border px-4 py-2">{{this.ip}}</td>
-          <td class="border px-4 py-2">
+          <td class="border px-4 py-2 text-center">{{this.assignedTs}}</td>
+          <td class="border px-4 py-2 text-center">{{this.ip}}</td>
+          <td class="border px-4 py-2 text-center">{{this.realname}}</td>
+          <td class="border px-4 py-2 text-center">
             {{#if this.assignedTs}}
-              <a href="/admin/unassign/{{username}}">Unassign</a>
+              <a class="bg-orange-500 hover:bg-orange-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline" href="/admin/unassign/{{username}}">Unassign</a>
             {{/if}}
           </td>
         </tr>

@@ -1,4 +1,3 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var session = require('express-session')
@@ -6,6 +5,7 @@ var timestring = require('timestring')
 var config = require('./config')
 var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
+const log = require('barelog')
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
@@ -37,11 +37,15 @@ app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  res.status(404).render('sorry', {
+    message: '404 - Looks like you followed a bad link.'
+  })
 });
 
 // error handler
 app.use(function(err, req, res, next) {
+  log('ERROR PASSED TO EXPRESS ERROR HANDLER:')
+  log(err)
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

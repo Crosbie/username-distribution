@@ -16,7 +16,7 @@ const env = require('env-var').from({
 
   // If you plan to use redis uncomment and set these,
   // or provide in values for them in the environment
-  // LAB_REDIS_HOST: 'some.redis.host:6379',
+  // LAB_REDIS_HOST: 'some.redis.host',
   // LAB_REDIS_PASS: 'somepassword',
 
   // Include environment values. These will take precedence over

@@ -4,8 +4,10 @@ const basicAuth = require('express-basic-auth')
 const log = require('barelog')
 const users = require('../lib/users')
 const config = require('../config')
+const sessions = require('../lib/session-store')
 const maxBy = require('lodash.maxby')
 const pMap = require('p-map')
+const { promisify } = require('util')
 
 // This route will require admin users to authenticate
 router.use(basicAuth({
@@ -36,6 +38,39 @@ router.get('/', async (req, res) => {
   })
 });
 
+/**
+ * Deletes all user sessions and unassigns all users
+ */
+router.get('/unassign-all', async (req, res) => {
+  log('uassigning all users and deleting all sessions')
+
+  const clearSessions = promisify(sessions.clear).bind(sessions)
+
+  async function unassignUsers () {
+    const userList = await users.getUserList()
+
+    return Promise.all(
+      userList.map((u) => users.unassignUser(u.username))
+    )
+  }
+
+  try {
+    await Promise.all([
+      clearSessions(),
+      unassignUsers()
+    ])
+
+    log('successfully unassigned all users and deleted all sessions')
+    res.redirect('/admin')
+  } catch (e) {
+    log('failed to unassign all users and delete all sessions', e)
+    res.render('sorry', {
+      message: 'Failed to clear all users and sessions. Check the application logs for more information.'
+    })
+  }
+
+})
+
 router.get('/accounts', async (req,res) => {
   const list = await users.getUserList()
   const lastAssigned = maxBy(list, (u) => {
@@ -52,15 +87,32 @@ router.get('/accounts', async (req,res) => {
 
 /**
  * Frees this user for reassignment.
- * Should probably be a POST, but who cares?
+ * Should probably be a POST, but eh...?
  */
 router.get('/unassign/:username', async (req, res, next) => {
+  const username = req.params.username
+
+  log(`unassignment requested for username ${username}`)
+  const getAllSessions = promisify(sessions.all).bind(sessions)
+  const destroySession = promisify(sessions.destroy).bind(sessions)
+
+  async function deleteSessionUsingUsername (username) {
+    log(`deleting session for username ${username}`)
+    const sessionList = await getAllSessions()
+    log(`finding session associated with "${username}"`, sessionList)
+    const targetSession = sessionList.find(s => s.username === username)
+
+    await destroySession(targetSession.id)
+  }
+
   try {
-    await users.unassignUser(req.params.username)
+    await users.unassignUser(username)
+    await deleteSessionUsingUsername(username)
+
     res.redirect('/admin')
-    log(`successfully unassigned "${req.params.username}"`)
+    log(`successfully unassigned "${username}"`)
   } catch (e) {
-    log(`failed to unassign "${req.params.username}"`)
+    log(`failed to unassign "${username}"`, e)
     next(e)
   }
 })

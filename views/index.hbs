@@ -1,3 +1,25 @@
+<div class="container text-center mx-auto">
+  <img style="width: 150px;" class="block mx-auto" src="images/logo.jpg"/>
+  <hr>
+  <h1 class="text-2xl py-4">{{title}}</h1>
+
+  <div class="text-left" id="credentials">
+      <h3 class="flex-initial text-xl pb-2">Hi {{realname}}! Here are your login credentials:</h3>
+      <hr class="flex-auto pb-4">
+      <p class="text-base pb-2"><span class="font-bold">Username</span>: {{username}}</p>
+      <p class="text-base"><span class="font-bold">Password</span>: {{password}}</p>
+  </div>
+
+  <div id="modules" class="mt-4">
+      {{#each modules}}
+      <div id="module{{@index}}">
+          <h3 class="text-2xl pb-2">Module {{@index}}</h3>
+          <a class="text-base pb-4 block" target="_blank" href="{{this}}">{{this}}</a>
+      </div>
+      {{/each}}
+  </div>
+</div>
+
 <div class="home">
   <div class="flex">
     <img class="logo" src="images/logo.jpg"/>
@@ -5,7 +27,7 @@
   </div>
 
   <div id="credentials">
-      <h3 class="flex-initial text-xl pb-2">Your login credentials</h3>
+      <h3 class="flex-initial text-xl pb-2">Hi {{realname}}! Here are your login credentials:</h3>
       <hr class="flex-auto pb-4">
       <p class="text-base pb-2"><span class="font-bold">Username</span>: {{username}}</p>
       <p class="text-base"><span class="font-bold">Password</span>: {{password}}</p>
