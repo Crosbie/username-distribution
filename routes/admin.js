@@ -34,7 +34,8 @@ router.get('/', async (req, res) => {
 
   res.render('admin', {
     title: 'Admin Panel',
-    users: formattedUsers
+    users: formattedUsers,
+    streamerMode: req.session.streamerMode
   })
 });
 
@@ -68,7 +69,6 @@ router.get('/unassign-all', async (req, res) => {
       message: 'Failed to clear all users and sessions. Check the application logs for more information.'
     })
   }
-
 })
 
 router.get('/accounts', async (req,res) => {
@@ -115,6 +115,16 @@ router.get('/unassign/:username', async (req, res, next) => {
     log(`failed to unassign "${username}"`, e)
     next(e)
   }
+})
+
+router.get('/toggle-streamer-mode', (req, res) => {
+  const isEnabled = req.session.streamerMode
+
+  // If streamer mode is enabled then disable, if disbaled then enable,
+  // and if it's not yet set then set it to true
+  req.session.streamerMode = isEnabled ? false : true
+
+  res.redirect('/admin')
 })
 
 module.exports = router;

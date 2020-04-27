@@ -29,7 +29,7 @@ router.post('/request-account', urlencoded(), (req, res) => {
       message: 'Error processing your request. Please verify your form input.'
     })
   } else {
-    req.session.realname = req.body.realname
+    req.session.realname = req.body.realname.trim()
     res.redirect('/')
   }
 })
