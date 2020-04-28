@@ -30,45 +30,61 @@
   </div>
   <hr class="pb-4">
 
-  <table class="table-auto mt-4 mb-6 w-full">
-    <thead>
-      <tr>
-        <th class="px-4 py-2">Username</th>
-        <th class="px-4 py-2">Assigned On</th>
-        <th class="px-4 py-2">IP</th>
-        <th class="px-4 py-2">Name</th>
-        <th class="px-4 py-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each users}}
-        {{#if this.odd}}
-          <tr class="bg-gray-100">
-        {{else}}
-          <tr>
-        {{/if}}
-          <td class="border px-4 py-2 w-1/4 text-center">{{this.username}}</td>
-          <td class="border px-4 py-2 text-center">{{this.assignedTs}}</td>
-          {{#if this.realname}}
-            {{#if ../streamerMode}}
-              <td class="border px-4 py-2 text-center">Hidden</td>
-              <td class="border px-4 py-2 text-center">Hidden</td>
-            {{else}}
-              <td class="border px-4 py-2 text-center">{{this.ip}}</td>
-              <td class="border px-4 py-2 text-center">{{this.realname}}</td>
-            {{/if}}
-          {{else}}
-            <td class="border px-4 py-2 text-center"></td>
-            <td class="border px-4 py-2 text-center"></td>
-          {{/if}}
+  <div class="px-4">
 
-          <td class="border px-4 py-2 text-center">
-            {{#if this.realname}}
-              <button class="bg-orange-500 hover:bg-orange-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline" onclick="unassignUser('{{this.username}}')">Unassign</button>
-            {{/if}}
-          </td>
+    <h2 class="text-xl mb-1 text-gray-700">
+      Lab Access Token
+    </h2>
+    {{#if streamerMode}}
+      <pre class="text-base mb-4">* * * *</pre>
+    {{else}}
+      <pre class="text-base mb-4">{{accessToken}}</pre>
+    {{/if}}
+
+    <hr>
+    <h2 class="text-xl mt-4 text-gray-700">
+      Lab Accounts
+    </h2>
+    <table class="table-auto mt-4 mb-6 w-full">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border">Username</th>
+          <th class="px-4 py-2 border">Assigned On</th>
+          <th class="px-4 py-2 border">IP</th>
+          <th class="px-4 py-2 border">Name</th>
+          <th class="px-4 py-2 border">Actions</th>
         </tr>
-      {{/each}}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {{#each users}}
+          {{#if this.odd}}
+            <tr class="bg-gray-100">
+          {{else}}
+            <tr>
+          {{/if}}
+            <td class="border px-4 py-2 w-1/4 text-center">{{this.username}}</td>
+            <td class="border px-4 py-2 text-center">{{this.assignedTs}}</td>
+            {{#if this.realname}}
+              {{#if ../streamerMode}}
+                <td class="border px-4 py-2 text-center">* * * *</td>
+                <td class="border px-4 py-2 text-center">* * * *</td>
+              {{else}}
+                <td class="border px-4 py-2 text-center">{{this.ip}}</td>
+                <td class="border px-4 py-2 text-center">{{this.realname}}</td>
+              {{/if}}
+            {{else}}
+              <td class="border px-4 py-2 text-center"></td>
+              <td class="border px-4 py-2 text-center"></td>
+            {{/if}}
+
+            <td class="border px-4 py-2 text-center">
+              {{#if this.realname}}
+                <button class="bg-orange-500 hover:bg-orange-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline" onclick="unassignUser('{{this.username}}')">Unassign</button>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </div>

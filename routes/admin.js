@@ -34,6 +34,7 @@ router.get('/', async (req, res) => {
 
   res.render('admin', {
     title: 'Admin Panel',
+    accessToken: config.accounts.accessToken,
     users: formattedUsers,
     streamerMode: req.session.streamerMode
   })

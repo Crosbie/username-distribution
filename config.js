@@ -8,6 +8,7 @@ const env = require('env-var').from({
   LAB_DURATION_HOURS: '2h',
   LAB_USER_COUNT: '50',
   LAB_USER_PASS: 'openshift',
+  LAB_USER_ACCESS_TOKEN: 'redhatlabs',
   LAB_BLOCKLIST: '',
   LAB_USER_PREFIX: 'evals',
   LAB_USER_PAD_ZERO: 'false',
@@ -34,6 +35,7 @@ module.exports = {
   eventTitle: env.get('LAB_TITLE').asString(),
   eventHours: env.get('LAB_DURATION_HOURS').asString(),
   accounts: {
+    accessToken: env.get('LAB_USER_ACCESS_TOKEN').asString(),
     number: env.get('LAB_USER_COUNT').asIntPositive(),
     password: env.get('LAB_USER_PASS').asString(),
     // Can be set as a comma separated list of names
