@@ -2,68 +2,78 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config');
 const log = require('barelog')
+const { urlencoded } = require('body-parser')
+const users = require('../lib/users')
+const { default: PQueue } = require('p-queue')
 
-
-var title = config.eventTitle;
-var accounts = config.accounts.number;
-var password = config.accounts.password;
-var prefix = config.accounts.prefix;
-var taken = config.accounts.blockedUsers;
-var padUserAcc = config.accounts.padZeroes
-var currentAvailable = 0;
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  // does 'user' Cookie exist
-  var id = 0;
-  if (req.session && req.session.ccn_user) {
-    log('found existing session and associated user ID: ', req.session)
-    id = req.session.ccn_user;
-  } else {
-    id = getNextUser();
-    log('this is a new session. generated ID for user:', id)
-    req.session.ccn_user = id
-  }
-
-  var data = {
-    userId: id,
-    password: password,
-    title: title,
-    modules: config.modules
-  };
-  return res.render('index', data);
-});
-
-// return accounts info
-router.get('/accounts',function(req,res){
-  return res.json({
-    lastAssigned: 'user'+currentAvailable,
-    totalAccounts: accounts,
-    locked: taken.map(function(val){
-      return 'user'+val;
-    })
-  });
+const assigmentQ = new PQueue({
+  concurrency: 1
 })
 
-module.exports = router;
+var title = config.eventTitle;
+var password = config.accounts.password;
 
-function getNextUser(){
-  if(currentAvailable === accounts){
-    log('No more accounts available');
-    return "No More Accounts"
-  }
-
-  currentAvailable++;
-  log('Current Users:',currentAvailable);
-
-  if(taken.indexOf(currentAvailable) >= 0){
-    return getNextUser();
-  }
-
-  if (currentAvailable < 10 && padUserAcc) {
-    return `${prefix}0${currentAvailable}`
+router.get('/request-account', urlencoded(), (req, res) => {
+  if (req.session.realname) {
+    // User has already requested an account, redirect them
+    res.redirect('/')
   } else {
-    return `${prefix}${currentAvailable}`;
+    res.render('request-account')
+  }
+})
+
+router.post('/request-account', urlencoded(), (req, res) => {
+  log('user requested account with realname:', req.body)
+  if (!req.body.realname) {
+    res.render('sorry', {
+      message: 'Error processing your request. Please verify your form input.'
+    })
+  } else {
+    req.session.realname = req.body.realname.trim()
+    res.redirect('/')
+  }
+})
+
+/* GET home page. */
+router.get('/', async (req, res) => {
+  var realname = req.session.realname
+
+  if (!realname) {
+    res.redirect('/request-account')
+  } else {
+    // Users are a resource that are locked/unlocked asynchronously in the cache
+    // We need to queue user account assignments to avoid assigning an account
+    // to multiple users
+    assigmentQ.add(async () => {
+      var username = req.session.username
+
+      if (!username) {
+        log('the incoming connection has no user in the session, requesting new user assignment')
+        let user = await users.getAndAssignUser(req.headers['x-forwarded-for'] || req.connection.remoteAddress, realname)
+        log('found free user is', user)
+        if (user) {
+          username = user.username
+        }
+      }
+
+      if (!username) {
+        res.render('sorry', {
+          message: 'All available accounts have been assigned to participants. Please contact the lab administrator if you believe this is an error.'
+        })
+      } else {
+        req.session.username = username
+
+        res.render('index', {
+          username,
+          realname,
+          password: password,
+          title: title,
+          modules: config.modules
+        });
+      }
+    })
   }
 
-}
+});
+
+module.exports = router;

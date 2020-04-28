@@ -1,18 +1,44 @@
-<img class="logo" src="images/logo.jpg"/>
-<h1>{{title}}</h1>
+<div class="container text-center mx-auto">
+  <div class="flex items-center">
+    <img class="logo" src="/images/logo.jpg"/>
+    <h1 class="text-center text-2xl">{{title}}</h1>
+  </div>
+  <hr class="pb-6">
 
-<div id="credentials">
-    <h3>Your login credentials</h3>
-    <hr>
-    <p>Username: {{userId}}</p>
-    <p>Password: {{password}}</p>
-</div>
-
-<div id="modules">
-    {{#each modules}}
-    <div id="module{{@index}}">
-        <h3>Module {{@index}}</h3>
-        <a target="_blank" href="{{this}}">{{this}}</a>
+  <div class="flex flex-row">
+    {{!-- Credentials section --}}
+    <div class="flex-1 flex-grow mx-4 text-left rounded shadow-md" id="credentials">
+      <h3 class="text-2xl p-2 pl-4 text-white bg-red-700 rounded-t">Credentials for {{realname}}</h3>
+      <div class="p-4 pt-2 rounded-b">
+        <h4 class="text-xl text-gray-700 mt-2">
+          Username
+        </h4>
+        <p class="text-base mt-2">
+          <pre class="text-base">{{username}}</pre>
+        </p>
+        <h4 class="text-xl text-gray-700 mt-4">
+          Password
+        </h4>
+        <p class="text-base mt-2">
+          <pre class="text-base">{{password}}</pre>
+        </p>
+      </div>
     </div>
-    {{/each}}
+
+    {{!-- Modules section --}}
+    <div class="flex-1 flex-grow mx-4 text-left rounded shadow-md" id="modules">
+      <h3 class="text-2xl p-2 pl-4 text-white bg-red-700 rounded-t">Modules</h3>
+      <div class="p-4 pt-2 rounded-b">
+        {{#each modules}}
+          {{#if @index}}
+            {{!-- First item (index 0) requires margin-top of 4 --}}
+            <h4 class="text-xl text-gray-700 mt-4">Module {{@index}}</h4>
+          {{else}}
+            <h4 class="text-xl text-gray-700 mt-2">Module {{@index}}</h4>
+          {{/if}}
+          <a class="text-base mt-2 block text-blue-600" target="_blank" href="{{this}}">{{this}}</a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
 </div>
