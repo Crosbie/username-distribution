@@ -26,7 +26,11 @@ router.post('/request-account', urlencoded(), (req, res) => {
   log('user requested account with realname:', req.body)
   if (!req.body.realname) {
     res.render('sorry', {
-      message: 'Error processing your request. Please verify your form input.'
+      message: 'Please enter a valid name to request an account. Names can only contain letters A-Z and spaces.'
+    })
+  } else if (req.body.accessToken !== config.accounts.accessToken) {
+    res.render('sorry', {
+      message: 'Please enter a valid access token to access an account.'
     })
   } else {
     req.session.realname = req.body.realname.trim()
