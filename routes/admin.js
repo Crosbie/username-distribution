@@ -32,6 +32,11 @@ router.get('/', async (req, res) => {
     return user
   })
 
+  if (req.session.streamerMode === undefined) {
+    // Enable streamer mode by default
+    req.session.streamerMode = true
+  }
+
   res.render('admin', {
     title: 'Admin Panel',
     accessToken: config.accounts.accessToken,
