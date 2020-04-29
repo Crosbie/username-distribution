@@ -102,12 +102,24 @@ router.get('/unassign/:username', async (req, res, next) => {
   const getAllSessions = promisify(sessions.all).bind(sessions)
   const destroySession = promisify(sessions.destroy).bind(sessions)
 
+  function findSessionInList (sessionList, username) {
+    if (Array.isArray(sessionList)) {
+      // For some reason Redis returns an array of sessions where ID is a property
+      return sessionList.find(s => s.username === username).id
+    } else {
+      // ...and in-memory sessions is an object where key is session ID
+      return Object.keys(sessionList).find((key) => {
+        return sessionList[key].username === username
+      })
+    }
+  }
+
   async function deleteSessionUsingUsername (username) {
     log(`deleting session for username ${username}`)
     const sessionList = await getAllSessions()
     log(`finding session associated with "${username}"`, sessionList)
-    const targetSession = sessionList.find(s => s.username === username)
-
+    const targetSession = findSessionInList(sessionList, username)
+    log('session was found as', targetSession)
     await destroySession(targetSession.id)
   }
 
