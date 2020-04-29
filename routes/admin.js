@@ -117,10 +117,10 @@ router.get('/unassign/:username', async (req, res, next) => {
   async function deleteSessionUsingUsername (username) {
     log(`deleting session for username ${username}`)
     const sessionList = await getAllSessions()
-    log(`finding session associated with "${username}"`, sessionList)
+    log(`finding session associated with "${username}"`)
     const targetSession = findSessionInList(sessionList, username)
-    log('session was found as', targetSession)
-    await destroySession(targetSession.id)
+    log('session was found as having ID:', targetSession)
+    await destroySession(targetSession)
   }
 
   try {
