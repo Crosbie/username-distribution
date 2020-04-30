@@ -32,11 +32,17 @@
         {{#each modules}}
           {{#if @index}}
             {{!-- First item (index 0) requires margin-top of 4 --}}
-            <h4 class="text-xl text-gray-700 mt-4">Module {{@index}}</h4>
+            <h4 class="text-xl text-gray-700 mt-4">Module {{incr @index}}</h4>
           {{else}}
-            <h4 class="text-xl text-gray-700 mt-2">Module {{@index}}</h4>
+            <h4 class="text-xl text-gray-700 mt-2">Module {{incr @index}}</h4>
           {{/if}}
-          <a class="text-base mt-2 block text-blue-600" target="_blank" href="{{this}}">{{this}}</a>
+          <a class="text-base mt-2 block text-blue-600" target="_blank" href="{{this.url}}">
+            {{#if this.prettyName}}
+              {{this.prettyName}}
+            {{else}}
+              {{this.url}}
+            {{/if}}
+          </a>
         {{/each}}
       </div>
     </div>

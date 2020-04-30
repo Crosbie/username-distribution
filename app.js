@@ -6,6 +6,13 @@ var config = require('./config')
 var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
 const log = require('barelog')
+var hbs = require('hbs');
+
+
+// Register Handlebars utility functions
+hbs.registerHelper('incr', function(value, options){
+  return parseInt(value) + 1;
+});
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');

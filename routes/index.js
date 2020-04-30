@@ -72,7 +72,10 @@ router.get('/', async (req, res) => {
           realname,
           password: password,
           title: title,
-          modules: config.modules
+          modules: config.modules.map(function(val){
+              val = val.split(';');
+              return {url:val[0], prettyName:val[1]}
+          })
         });
       }
     })

@@ -95,7 +95,7 @@ You can set these variables via a `Deployment` or `DeploymentConfig`, or by moun
 | LAB_USER_PASS | openshift | The default password for all users |
 | LAB_BLOCKLIST | [] | Comma separated list of user numbers to block off. These numbers will not be assigned |
 | LAB_USER_PREFIX | evals | The username prefix for each account (eg. evals1, evals2) |
-| LAB_MODULE_URLS | [] | Comma separated list of modules, e.g "https://module.a,https://module.b" |
+| LAB_MODULE_URLS | [] | Comma separated list of modules and module names, e.g "https://module.a;Lab 1,https://module.b;Lab2" |
 | LAB_USER_PAD_ZERO | false | Determines if user should be formatted as evals01 or "evals1" when user number is less than 10 |
 | LAB_ADMIN_PASS | pleasechangethis | The password used to login at the /admin URL |
 | LAB_REDIS_HOST | not set | The Redis instance to use. Provide only the hostname, and no port |
@@ -104,18 +104,7 @@ You can set these variables via a `Deployment` or `DeploymentConfig`, or by moun
 
 #### Via Code
 
-Edit the *config.js* file and deploy in OpenShift. See below config values and descriptions
-
-| name | default | description |
-| ---- | ------- | ----------- |
-| eventTitle | OCP4 Workshop | This title will be displayed at the top of the page |
-| eventHours | 2h | The length of the event. Should be in a format per [timestring docs](https://www.npmjs.com/package/timestring) |
-| accounts.number | 50 | The number of available user logins |
-| accounts.password | "openshift" | The default password for all users |
-| accounts.blockedUsers | [] | Comma separated list of user numbers to block off. These numbers will not be assigned |
-| accounts.prefix | evals | The username prefix for each account (eg. {prefix}1, {prefix}2) |
-| modules | [] | Comma separated list of modules, e.g "https://module.a,https://module.b" |
-
+Edit the *config.js* file and deploy in OpenShift. See above config values and descriptions.
 
 ## Administration
 
