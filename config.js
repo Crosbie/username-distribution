@@ -13,7 +13,7 @@ const env = require('env-var').from({
   LAB_USER_PREFIX: 'evals',
   LAB_USER_PAD_ZERO: 'false',
   LAB_ADMIN_PASS: 'pleasechangethis',
-  LAB_MODULE_URLS: '',
+  LAB_MODULE_URLS: 'https://a.com;Lab 1,https://b.com;Lab 2',
 
   // If you plan to use redis uncomment and set these,
   // or provide in values for them in the environment

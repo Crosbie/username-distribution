@@ -93,6 +93,7 @@ You can set these variables via a `Deployment` or `DeploymentConfig`, or by moun
 | LAB_DURATION_HOURS | 2h | The length of the event. Should be in a format per [timestring docs](https://www.npmjs.com/package/timestring) |
 | LAB_USER_COUNT | 50 | The number of available user logins |
 | LAB_USER_PASS | openshift | The default password for all users |
+| LAB_USER_ACCESS_TOKEN | redhatlabs | Access token required to join the lab. Give this to your users. |
 | LAB_BLOCKLIST | [] | Comma separated list of user numbers to block off. These numbers will not be assigned |
 | LAB_USER_PREFIX | evals | The username prefix for each account (eg. evals1, evals2) |
 | LAB_MODULE_URLS | [] | Comma separated list of modules and module names, e.g "https://module.a;Lab 1,https://module.b;Lab2" |

@@ -74,7 +74,7 @@ router.get('/', async (req, res) => {
           title: title,
           modules: config.modules.map(function(val){
               val = val.split(';');
-              return {url:val[0], prettyName:val[1]}
+              return {url:val[0] + "?user="+username, prettyName:val[1]}
           })
         });
       }
