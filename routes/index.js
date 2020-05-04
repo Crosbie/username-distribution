@@ -23,7 +23,6 @@ router.get('/request-account', urlencoded(), (req, res) => {
 })
 
 router.post('/request-account', urlencoded(), (req, res) => {
-  log('user requested account with realname:', req.body)
   if (!req.body.realname) {
     res.render('sorry', {
       message: 'Please enter a valid name to request an account. Names can only contain letters A-Z and spaces.'
@@ -33,6 +32,7 @@ router.post('/request-account', urlencoded(), (req, res) => {
       message: 'Please enter a valid access token to access an account.'
     })
   } else {
+    log('user requested account with realname:', req.body.realname)
     req.session.realname = req.body.realname.trim()
     res.redirect('/')
   }
@@ -51,11 +51,22 @@ router.get('/', async (req, res) => {
     assigmentQ.add(async () => {
       var username = req.session.username
 
+      if (username) {
+        const valid = await users.isUserAssignmentValid(username)
+
+        if (!valid) {
+          // perform unassignment on the session
+          log(`no longer valid. unassigning the existing user ${username}`)
+          username = req.session.username = undefined
+        }
+      }
+
       if (!username) {
         log('the incoming connection has no user in the session, requesting new user assignment')
         let user = await users.getAndAssignUser(req.headers['x-forwarded-for'] || req.connection.remoteAddress, realname)
-        log('found free user is', user)
+
         if (user) {
+          log('found free user is', user)
           username = user.username
         }
       }

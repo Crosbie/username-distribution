@@ -63,7 +63,11 @@
             <tr>
           {{/if}}
             <td class="border px-4 py-2 w-1/4 text-center">{{this.username}}</td>
-            <td class="border px-4 py-2 text-center">{{this.assignedTs}}</td>
+            {{#if this.disabled}}
+              <td class="border px-4 py-2 text-center">Account Disabled</td>
+            {{else}}
+              <td class="border px-4 py-2 text-center">{{this.assignedTs}}</td>
+            {{/if}}
             {{#if this.realname}}
               {{#if ../streamerMode}}
                 <td class="border px-4 py-2 text-center">* * * *</td>
