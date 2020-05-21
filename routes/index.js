@@ -78,6 +78,19 @@ router.get('/', async (req, res) => {
       } else {
         req.session.username = username
 
+        var subs = [
+          ['USERNAME', username],
+          ['REALNAME', realname],
+          ['LAB_TITLE', title],
+          ['LAB_DURATION_HOURS', config.eventHours],
+          ['LAB_USER_COUNT', config.accounts.number],
+          ['LAB_USER_PASS', config.accounts.password],
+          ['LAB_USER_ACCESS_TOKEN', config.accounts.accessToken],
+          ['LAB_USER_PREFIX', config.accounts.prefix],
+          ['LAB_ADMIN_PASS', config.adminPassword],
+          ['LAB_SESSION_SECRET', config.sessionSecret]
+        ];
+
         res.render('index', {
           username,
           realname,
@@ -85,7 +98,15 @@ router.get('/', async (req, res) => {
           title: title,
           modules: config.modules.map(function(val){
               val = val.split(';');
-              return {url:val[0] + "?user="+username, prettyName:val[1]}
+              return {url:val[0], prettyName:val[1]}
+          }).map(function(val) {
+            var url = val.url
+            var prettyName = val.prettyName
+            subs.forEach(function(sub) {
+              url = url.replace('{{' + sub[0] + '}}', sub[1])
+              prettyName = prettyName.replace('{{' + sub[0] + '}}', sub[1])
+            })
+            return {url: url, prettyName: prettyName}
           })
         });
       }
