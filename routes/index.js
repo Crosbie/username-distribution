@@ -18,7 +18,7 @@ router.get('/request-account', urlencoded(), (req, res) => {
     // User has already requested an account, redirect them
     res.redirect('/')
   } else {
-    res.render('request-account')
+    res.render('request-account', {title: title})
   }
 })
 
